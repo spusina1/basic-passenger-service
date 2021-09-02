@@ -59,4 +59,13 @@ public class Passenger {
     @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Ticket> tickets = new ArrayList<>();
+
+    public Passenger(String firstName, String lastName, String passportId, String address, String phoneNumber, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passportId = passportId;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }
