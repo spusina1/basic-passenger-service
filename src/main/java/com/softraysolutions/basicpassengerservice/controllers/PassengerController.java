@@ -2,6 +2,7 @@ package com.softraysolutions.basicpassengerservice.controllers;
 
 import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundException;
 import com.softraysolutions.basicpassengerservice.models.Passenger;
+import com.softraysolutions.basicpassengerservice.requests.EditPassengerRequest;
 import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
 import com.softraysolutions.basicpassengerservice.responses.PassengerResponse;
 import com.softraysolutions.basicpassengerservice.responses.Response;
@@ -47,6 +48,16 @@ public class PassengerController {
         );
 
         return ResponseEntity.ok(passengerService.getPassengers(filterRequest));
+    }
+
+    @PutMapping("/passenger")
+    public ResponseEntity<Response> updatePassenger(@RequestBody EditPassengerRequest editPassengerRequest) {
+        return ResponseEntity.ok(passengerService.putPassenger(editPassengerRequest));
+    }
+
+    @DeleteMapping("/passenger/{id}")
+    public ResponseEntity<Response> deletePassenger(@PathVariable Long id) {
+        return ResponseEntity.ok(passengerService.deletePassenger(id));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
