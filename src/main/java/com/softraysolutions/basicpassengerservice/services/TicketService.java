@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class TicketServise {
+public class TicketService {
 
     private final TicketRepository ticketRepository;
 }
