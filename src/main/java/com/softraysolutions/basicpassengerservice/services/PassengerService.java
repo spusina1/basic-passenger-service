@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -32,4 +33,15 @@ public class PassengerService {
         return new Response("Passenger is saved.", 200);
     }
 
+    public Passenger getPassenger(Long id) {
+        return passengerRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Passenger with Id=" + id + " does not exist."));
+    }
+
+    public List<Passenger> getPassengers(PassengerRequest filterRequest) {
+        List<Passenger> passengers = passengerRepository.findByFilter(filterRequest);
+        if (passengers.size() == 0) throw new ResourceNotFoundException("No passengers found.");
+        return passengers;
+    }
 }
