@@ -5,9 +5,7 @@ import com.softraysolutions.basicpassengerservice.models.Company;
 import com.softraysolutions.basicpassengerservice.models.Passenger;
 import com.softraysolutions.basicpassengerservice.models.Route;
 import com.softraysolutions.basicpassengerservice.repositories.RouteRepository;
-import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
-import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
-import com.softraysolutions.basicpassengerservice.requests.RouteRequest;
+import com.softraysolutions.basicpassengerservice.requests.*;
 import com.softraysolutions.basicpassengerservice.responses.Response;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -71,6 +69,42 @@ public class RouteService {
         List<Route> routes = routeRepository.findAll();
         if (routes.size() == 0) throw new ResourceNotFoundException("No routes found.");
         return routes;
+    }
+
+    public Response putRoute(EditRouteRequest editRouteRequest) throws ParseException {
+        Optional<Route> route = routeRepository.findById(editRouteRequest.getId());
+        if (!route.isPresent()) return new Response("Route with Id=" + editRouteRequest.getId() + " does not exist.", 400);
+
+        if(checkDateFormat(editRouteRequest.getDepartureDate()).equals("Ok.")
+                && checkDateFormat(editRouteRequest.getArrivalDate()).equals("Ok.")
+                && checkTimeFormat(editRouteRequest.getDepartureTime()).equals("Ok.")
+                && checkTimeFormat(editRouteRequest.getArrivalTime()).equals("Ok.")){
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            String sDepartureDateAndTime = editRouteRequest.getDepartureDate() + " " + editRouteRequest.getDepartureTime();
+            Date departureDateAndTime = formatter.parse(sDepartureDateAndTime);
+
+            String sArrivalDateAndTime = editRouteRequest.getArrivalDate() + " " + editRouteRequest.getArrivalTime();
+            Date arrivalDateAndTime = formatter.parse(sArrivalDateAndTime);
+
+            route.get().setDeparturePoint(editRouteRequest.getDeparturePoint());
+            route.get().setDepartureDateAndTime(departureDateAndTime);
+            route.get().setArrivalPoint(editRouteRequest.getArrivalPoint());
+            route.get().setArrivalDateAndTime(arrivalDateAndTime);
+
+            routeRepository.save(route.get());
+
+            return new Response("Route successfully updated.", 200);
+        }
+        return new Response("Invalid date and time format.", 404);
+    }
+
+    public Response deleteRoute(Long id) {
+        Optional<Route> route = routeRepository.findById(id);
+        if (!route.isPresent()) return new Response("Route with Id=" + id + " does not exist.", 400);
+        routeRepository.delete(route.get());
+        return new Response("Route successfully deleted.", 200);
     }
 
     private String checkDateFormat(String date){

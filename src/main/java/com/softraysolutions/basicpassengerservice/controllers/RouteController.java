@@ -3,9 +3,7 @@ package com.softraysolutions.basicpassengerservice.controllers;
 import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundException;
 import com.softraysolutions.basicpassengerservice.models.Company;
 import com.softraysolutions.basicpassengerservice.models.Route;
-import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
-import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
-import com.softraysolutions.basicpassengerservice.requests.RouteRequest;
+import com.softraysolutions.basicpassengerservice.requests.*;
 import com.softraysolutions.basicpassengerservice.responses.Response;
 import com.softraysolutions.basicpassengerservice.services.RouteService;
 import com.softraysolutions.basicpassengerservice.util.ErrorHandlingHelper;
@@ -38,6 +36,16 @@ public class RouteController {
     @GetMapping("/route")
     public ResponseEntity<List<Route>> showRoutes() {
         return ResponseEntity.ok(routeService.getRoutes());
+    }
+
+    @PutMapping("/route")
+    public ResponseEntity<Response> updateRoute(@RequestBody EditRouteRequest editRouteRequest) throws ParseException {
+        return ResponseEntity.ok(routeService.putRoute(editRouteRequest));
+    }
+
+    @DeleteMapping("/route/{id}")
+    public ResponseEntity<Response> deleteRoute(@PathVariable Long id) {
+        return ResponseEntity.ok(routeService.deleteRoute(id));
     }
 
 
