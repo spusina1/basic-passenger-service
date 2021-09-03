@@ -1,6 +1,9 @@
 package com.softraysolutions.basicpassengerservice.controllers;
 
 import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundException;
+import com.softraysolutions.basicpassengerservice.models.Company;
+import com.softraysolutions.basicpassengerservice.models.Route;
+import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
 import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
 import com.softraysolutions.basicpassengerservice.requests.RouteRequest;
 import com.softraysolutions.basicpassengerservice.responses.Response;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -25,6 +29,17 @@ public class RouteController {
     public ResponseEntity<Response> createRoute(@RequestBody RouteRequest routeRequest) throws ParseException {
         return ResponseEntity.ok(routeService.addRoute(routeRequest));
     }
+
+    @GetMapping("/route/{id}")
+    public ResponseEntity<Route> showRoute(@PathVariable Long id) {
+        return ResponseEntity.ok(routeService.getRoute(id));
+    }
+
+    @GetMapping("/route")
+    public ResponseEntity<List<Route>> showRoutes() {
+        return ResponseEntity.ok(routeService.getRoutes());
+    }
+
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

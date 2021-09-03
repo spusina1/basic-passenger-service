@@ -1,9 +1,12 @@
 package com.softraysolutions.basicpassengerservice.services;
 
+import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundException;
 import com.softraysolutions.basicpassengerservice.models.Company;
+import com.softraysolutions.basicpassengerservice.models.Passenger;
 import com.softraysolutions.basicpassengerservice.models.Route;
 import com.softraysolutions.basicpassengerservice.repositories.RouteRepository;
 import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
+import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
 import com.softraysolutions.basicpassengerservice.requests.RouteRequest;
 import com.softraysolutions.basicpassengerservice.responses.Response;
 import lombok.AllArgsConstructor;
@@ -16,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -55,6 +59,18 @@ public class RouteService {
         }
 
        return new Response("Invalid date and time format.", 404);
+    }
+
+    public Route getRoute(Long id) {
+        return routeRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Route with Id=" + id + " does not exist."));
+    }
+
+    public List<Route> getRoutes() {
+        List<Route> routes = routeRepository.findAll();
+        if (routes.size() == 0) throw new ResourceNotFoundException("No routes found.");
+        return routes;
     }
 
     private String checkDateFormat(String date){
