@@ -1,4 +1,4 @@
-package com.softraysolutions.basicpassengerservice.repositories;
+package com.softraysolutions.basicpassengerservice.repositories.filters;
 
 import com.softraysolutions.basicpassengerservice.models.Passenger;
 import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;

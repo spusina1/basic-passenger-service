@@ -1,6 +1,8 @@
-package com.softraysolutions.basicpassengerservice.repositories;
+package com.softraysolutions.basicpassengerservice.repositories.filters;
 
+import com.softraysolutions.basicpassengerservice.models.Company;
 import com.softraysolutions.basicpassengerservice.models.Passenger;
+import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
 import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,31 +17,21 @@ import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class PassengerFilterRepositoryImpl implements PassengerFilterRepository{
+public class CompanyFilterRepositoryImpl implements CompanyFilterRepository{
 
     private final EntityManager em;
 
     @Override
-    public List<Passenger> findByFilter(PassengerRequest filter) {
+    public List<Company> findByFilter(CompanyRequest filter) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Passenger> cq = cb.createQuery(Passenger.class);
+        CriteriaQuery<Company> cq = cb.createQuery(Company.class);
 
-        Root<Passenger> root = cq.from(Passenger.class);
+        Root<Company> root = cq.from(Company.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        if (filter.getFirstName() != null && !filter.getFirstName().isEmpty()) {
-            String pattern = String.format("%%%s%%", filter.getFirstName());
-            predicates.add(cb.like(root.get("firstName"), pattern));
-        }
-
-        if (filter.getLastName() != null && !filter.getLastName().isEmpty()) {
-            String pattern = String.format("%%%s%%", filter.getLastName());
-            predicates.add(cb.like(root.get("lastName"), pattern));
-        }
-
-        if (filter.getPassportId() != null && !filter.getPassportId().isEmpty()) {
-            String pattern = String.format("%%%s%%", filter.getPassportId());
-            predicates.add(cb.like(root.get("passportId"), pattern));
+        if (filter.getName() != null && !filter.getName().isEmpty()) {
+            String pattern = String.format("%%%s%%", filter.getName());
+            predicates.add(cb.like(root.get("name"), pattern));
         }
 
         if (filter.getAddress() != null && !filter.getAddress().isEmpty()) {

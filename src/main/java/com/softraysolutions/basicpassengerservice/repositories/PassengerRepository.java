@@ -1,6 +1,7 @@
 package com.softraysolutions.basicpassengerservice.repositories;
 
 import com.softraysolutions.basicpassengerservice.models.Passenger;
+import com.softraysolutions.basicpassengerservice.repositories.filters.PassengerFilterRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
