@@ -52,4 +52,11 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Route> routes = new ArrayList<>();
+
+    public Company(String name, String address, String phoneNumber, String email) {
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }

@@ -21,7 +21,6 @@ public class PassengerService {
     private final PassengerRepository passengerRepository;
 
     public Response addPassenger(PassengerRequest passengerRequest) {
-
         passengerRepository.save(
                 new Passenger(
                 passengerRequest.getFirstName(),

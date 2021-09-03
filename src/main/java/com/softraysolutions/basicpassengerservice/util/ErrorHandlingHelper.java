@@ -2,6 +2,7 @@ package com.softraysolutions.basicpassengerservice.util;
 
 import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundException;
 import com.softraysolutions.basicpassengerservice.responses.Response;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -28,4 +29,5 @@ public class ErrorHandlingHelper {
     public static Response handleIllegalArgumentException(SQLException exception) {
         return new Response(exception.getMessage(),409);
     }
+
 }
