@@ -4,6 +4,7 @@ import com.softraysolutions.basicpassengerservice.exceptions.ResourceNotFoundExc
 import com.softraysolutions.basicpassengerservice.models.Company;
 import com.softraysolutions.basicpassengerservice.models.Passenger;
 import com.softraysolutions.basicpassengerservice.requests.CompanyRequest;
+import com.softraysolutions.basicpassengerservice.requests.EditCompanyRequest;
 import com.softraysolutions.basicpassengerservice.requests.EditPassengerRequest;
 import com.softraysolutions.basicpassengerservice.requests.PassengerRequest;
 import com.softraysolutions.basicpassengerservice.responses.CompanyResponse;
@@ -47,6 +48,16 @@ public class CompanyController {
         );
 
         return ResponseEntity.ok(companyService.getCompanies(filterRequest));
+    }
+
+    @PutMapping("/company")
+    public ResponseEntity<Response> updateCompany(@RequestBody EditCompanyRequest editCompanyRequest) {
+        return ResponseEntity.ok(companyService.putCompany(editCompanyRequest));
+    }
+
+    @DeleteMapping("/company/{id}")
+    public ResponseEntity<Response> deleteCompany(@PathVariable Long id) {
+        return ResponseEntity.ok(companyService.deleteCompany(id));
     }
 
 
