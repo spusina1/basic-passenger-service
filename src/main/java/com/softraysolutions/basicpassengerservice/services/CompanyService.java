@@ -34,10 +34,9 @@ public class CompanyService {
     }
 
 
-    public CompanyResponse getCompany(Long id) {
+    public Company getCompany(Long id) {
         return companyRepository
                 .findById(id)
-                .map(company -> new CompanyResponse(company.getId(), company.getName(), company.getAddress(), company.getPhoneNumber(),company.getEmail()))
                 .orElseThrow(() -> new ResourceNotFoundException("Company with Id=" + id + " does not exist."));
     }
 
